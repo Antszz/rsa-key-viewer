@@ -13,6 +13,8 @@ from flask_wtf.file import FileRequired
 from wtforms import SubmitField
 
 app = Flask(__name__)
+app.config['WTF_CSRF_ENABLED']= False
+app.config['SECRET_KEY']='KEY_SECRET'
 bootstrap = Bootstrap(app)
 
 
@@ -80,7 +82,5 @@ def index():
     return render_template('index.html', form=form, key_data=key_data)
 
 if __name__=='__main__':
-    app.config['WTF_CSRF_ENABLED']= False
     app.config['ENV']='development'
-    app.config['SECRET_KEY']='KEY_SECRET'
     app.run(debug=True)
