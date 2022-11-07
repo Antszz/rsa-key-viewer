@@ -1,0 +1,97 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA key viewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>RSA key viewer</h1>
+            </div>
+        </div>
+        <form action="{{url_for('index')}}" method="POST" enctype="multipart/form-data">
+            <div class="form-basic">
+                <div class="row">
+                    {{form.file (class="btn btn-secondary btn-sm button-file")}}
+                    {%for message in form.file.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" data-dismiss="alert" class="close">&times;</button>
+                            {{message}}
+                        </div>
+                    {%endfor%}
+                </div>
+                <br>
+                <div class="row">
+                    {{form.verify (class="btn btn-primary btn-md")}}
+                </div>
+            </div>
+        </form>
+
+        <div class="row mt-5">
+            {%for message in get_flashed_messages() %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" data-dismiss="alert" class="close">&times;</button>
+                    {{message}}
+                </div>
+            {%endfor%}
+        </div>
+        <div class="row">
+            <div>
+                {%if key_data.get('keyType') == 'public'%}
+                    <h4>Public key</h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="col" scope="col">modulus</th>
+                                <th class="col" scope="col">publicExponent</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-break">
+                            <tr>
+                                <td>{{key_data.get('modulus')}}</td>
+                                <td>{{key_data.get('publicExponent')}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {%elif key_data.get('keyType') == 'private'%}
+                    <h4>Private key</h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="col" scope="col">modulus</th>
+                                <th class="col" scope="col">publicExponent</th>
+                                <th class="col" scope="col">privateExponent</th>
+                                <th class="col" scope="col">prime1</th>
+                                <th class="col" scope="col">prime2</th>
+                                <th class="col" scope="col">exponent1</th>
+                                <th class="col" scope="col">exponent2</th>
+                                <th class="col" scope="col">coefficient</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-break">
+                            <tr>
+                                <td>{{key_data.get('modulus')}}</td>
+                                <td>{{key_data.get('publicExponent')}}</td>
+                                <td>{{key_data.get('privateExponent')}}</td>
+                                <td>{{key_data.get('prime1')}}</td>
+                                <td>{{key_data.get('prime2')}}</td>
+                                <td>{{key_data.get('exponent1')}}</td>
+                                <td>{{key_data.get('exponent2')}}</td>
+                                <td>{{key_data.get('coefficient')}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+</body>
+</html>
