@@ -29,7 +29,7 @@ class FileForm(FlaskForm):
 def read_pem_file():
     pem_data = None
     try:
-        pem_file = open('key.pem')
+        pem_file = open(os.path.abspath(os.path.dirname(__file__)) + '/key.pem')
         pem_data = pem_file.read()
         pem_file.close()
         os.remove('key.pem')
